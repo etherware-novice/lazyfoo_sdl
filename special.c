@@ -20,3 +20,14 @@ SDL_Surface* loadPNGSurface( char *path, SDL_Surface *formatSrc )
 
 	return loadedSurface;
 }
+
+SDL_Texture* loadPNGTexture( SDL_Renderer *render, char *path )
+{
+	SDL_Texture *loadedTexture = NULL;
+	SDL_Surface *loadedSurface = loadPNGSurface( path, NULL );
+	if( !loadedSurface ) return NULL;
+
+	loadedTexture = freeTextureFromSurface( render, loadedSurface );
+	if( !loadedTexture ) printf( "Unable to create texture from PNG %s! SDL Error: %s", SDL_GetError() );
+	return loadedTexture;
+}

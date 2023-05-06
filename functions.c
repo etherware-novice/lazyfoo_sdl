@@ -40,3 +40,21 @@ SDL_Surface* optimizeSurface( SDL_Surface *origSurface, SDL_PixelFormat *format 
 	SDL_FreeSurface( origSurface );
 	return optimizedSurface;
 }
+
+SDL_Texture* loadTexture( SDL_Renderer *render, char *path )
+{
+	SDL_Texture *loadedTexture = NULL;
+	SDL_Surface *loadedSurface = loadSurface( path, NULL );
+	if( !loadedSurface ) return NULL;
+
+	loadedTexture = freeTextureFromSurface( render, loadedSurface );
+	if( !loadedTexture ) printf( "Unable to create texture from %s! SDL_Error: %s\n", path, SDL_GetError());
+}
+
+SDL_Texture* freeTextureFromSurface( SDL_Renderer *render, SDL_Surface *sourceSurf )
+{
+	SDL_Texture *newTexture = SDL_CreateTextureFromSurface( render, sourceSurf );
+	if( newTexture ) SDL_FreeSurface( sourceSurf );
+	return newTexture;
+}
+
